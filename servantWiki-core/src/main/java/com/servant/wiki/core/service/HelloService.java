@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.servant.wiki.common.config.Global;
@@ -58,4 +59,16 @@ public class HelloService {
 			logger.info("=======Hqdemo content: {}",JsonUtils.toJson(demo));
 		}
 	}
+	
+	
+	@Async
+	public void method(){
+		logger.info("========method begin==========");
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+		}
+		logger.info("========method end==========");
+	}
+	
 }

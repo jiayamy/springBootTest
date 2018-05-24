@@ -1,4 +1,4 @@
-package com.servant.wiki.common.thread;
+package com.servant.wiki.core.config;
 
 import java.util.concurrent.Executor;
 

@@ -30,7 +30,6 @@ public class HelloController {
 	public void hello(){
 		logger.info("----------hello controller----------");
 		helloService.sayHello();
-		throw new RuntimeException("test");
 	}
 	
 	@ApiOperation(value="logTest", notes="")
@@ -41,6 +40,13 @@ public class HelloController {
 		} catch (Exception e) {
 			
 		}
-		
+	}
+	
+	@ApiOperation(value="threadTest", notes="")
+	@RequestMapping(value = "/threadTest", method = RequestMethod.GET)
+	public void threadTest(){
+		for(int i = 0; i < 5; i++){
+			helloService.method();
+		}
 	}
 }

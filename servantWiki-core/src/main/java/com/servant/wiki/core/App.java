@@ -38,7 +38,6 @@ public class App {
 	
 	@PostConstruct
     public void init() {
-		logger.info("---"+JsonUtils.toJson(env));
 		Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(Constants.Env.DEVELOPMENT) && activeProfiles.contains(Constants.Env.PRODUCTION)) {
             logger.error("You have misconfigured your application! It should not run " +
