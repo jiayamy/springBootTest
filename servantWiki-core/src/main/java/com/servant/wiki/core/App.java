@@ -16,6 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.servant.wiki.common.config.constants.Constants;
+import com.servant.wiki.common.util.JsonUtils;
 import com.servant.wiki.core.config.DefaultProfileUtil;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -37,6 +38,7 @@ public class App {
 	
 	@PostConstruct
     public void init() {
+		logger.info("---"+JsonUtils.toJson(env));
 		Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(Constants.Env.DEVELOPMENT) && activeProfiles.contains(Constants.Env.PRODUCTION)) {
             logger.error("You have misconfigured your application! It should not run " +

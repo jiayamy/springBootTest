@@ -1,4 +1,4 @@
-package com.servant.wiki.core.aop;
+package com.servant.wiki.core.aop.log;
 
 import java.util.Arrays;
 
@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import com.servant.wiki.common.config.constants.Constants;
 
@@ -20,6 +21,7 @@ import com.servant.wiki.common.config.constants.Constants;
  * By default, it only runs with the "dev" profile.
  */
 @Aspect
+@Component
 public class LoggingAspect {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -43,10 +45,9 @@ public class LoggingAspect {
     /**
      * Pointcut that matches all Spring beans in the application's main packages.
      */
-    @Pointcut("within(com.servant.wiki.core..*)")
+    @Pointcut("execution(public * com.servant.wiki.core..*.*(..))")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
-    	log.info("aop init");
     }
 
     /**
@@ -57,15 +58,8 @@ public class LoggingAspect {
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-    	log.info("----------------");
-        if (env.acceptsProfiles(Constants.Env.DEVELOPMENT)) {
-            log.error("Exception in {}.{}() with cause = \'{}\' and exception = \'{}\'", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL", e.getMessage(), e);
-
-        } else {
-            log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
-                joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL");
-        }
+        log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
+            joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL");
     }
 
     /**

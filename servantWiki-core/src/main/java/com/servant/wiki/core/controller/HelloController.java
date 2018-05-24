@@ -30,6 +30,7 @@ public class HelloController {
 	public void hello(){
 		logger.info("----------hello controller----------");
 		helloService.sayHello();
+		throw new RuntimeException("test");
 	}
 	
 	@ApiOperation(value="logTest", notes="")
