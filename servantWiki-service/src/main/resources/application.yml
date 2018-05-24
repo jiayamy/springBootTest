@@ -1,0 +1,15 @@
+#env=111
+
+#port
+server:
+  port: 9290
+
+#spring jpa
+spring:
+  jpa:
+    database: MySQL
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
