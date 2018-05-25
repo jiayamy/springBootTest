@@ -49,4 +49,10 @@ public class HelloController {
 			helloService.method();
 		}
 	}
+	
+	@ApiOperation(value="redisTest", notes="")
+	@RequestMapping(value = "/redisTest", method = RequestMethod.GET)
+	public void redisTest(){
+		helloService.redisTest();
+	}
 }

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.servant.wiki.common.config.Global;
 import com.servant.wiki.common.util.JsonUtils;
 import com.servant.wiki.core.config.SpringConfig;
+import com.servant.wiki.core.config.redis.JedisTemplate;
+import com.servant.wiki.core.config.redis.JedisUtils;
 import com.servant.wiki.core.dao.HelloDao;
 import com.servant.wiki.core.dao.HqDao;
 import com.servant.wiki.core.entity.Demo;
@@ -41,6 +43,8 @@ public class HelloService {
 	
 	@Autowired
 	SpringConfig springConfig;
+	
+	JedisTemplate jedis = JedisUtils.getJedisTemplate();
 	
 	@SuppressWarnings("unchecked")
 	public void sayHello(){
@@ -69,6 +73,12 @@ public class HelloService {
 		} catch (Exception e) {
 		}
 		logger.info("========method end==========");
+	}
+	
+	public void redisTest(){
+		jedis.set("first", "test");
+		String str = jedis.get("first");
+		logger.info("-----------" + str);
 	}
 	
 }
