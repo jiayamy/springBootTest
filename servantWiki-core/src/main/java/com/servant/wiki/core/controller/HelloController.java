@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.servant.wiki.api.HelloFeiginService;
 import com.servant.wiki.core.service.HelloService;
 
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ public class HelloController {
 	
 	@Autowired
 	private HelloService helloService;
+	
+	@Autowired
+	private HelloFeiginService helloFeiginService;
 	
 	@ApiOperation(value="hello", notes="")
 	@RequestMapping(value = "/sayHello", method = RequestMethod.GET)
@@ -54,5 +58,11 @@ public class HelloController {
 	@RequestMapping(value = "/redisTest", method = RequestMethod.GET)
 	public void redisTest(){
 		helloService.redisTest();
+	}
+	
+	@ApiOperation(value="feiginTest", notes="")
+	@RequestMapping(value = "/feiginTest", method = RequestMethod.GET)
+	public void feiginTest(){
+		helloFeiginService.SayHello();
 	}
 }

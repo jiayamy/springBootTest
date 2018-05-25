@@ -26,7 +26,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableFeignClients
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan("com.servant.wiki.core")
+@ComponentScan(basePackages={"com.servant.wiki"})
 @EnableJpaRepositories("com.servant.wiki.core.dao")
 public class App {
 	
