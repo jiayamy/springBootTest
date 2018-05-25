@@ -2,14 +2,14 @@
 
 #port
 server:
-  port: 9290
+  port: 9292
 
-#spring jpa
-spring:
-  jpa:
-    database: MySQL
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+#eureka
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

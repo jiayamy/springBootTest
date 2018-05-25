@@ -6,13 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
-@EnableSwagger2
+@EnableEurekaServer
+@SpringBootApplication
 public class App {
 	
 	Logger logger = LoggerFactory.getLogger(App.class);
