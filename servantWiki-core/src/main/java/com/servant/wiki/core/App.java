@@ -16,7 +16,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.servant.wiki.common.config.constants.Constants;
-import com.servant.wiki.common.util.JsonUtils;
 import com.servant.wiki.core.config.DefaultProfileUtil;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
