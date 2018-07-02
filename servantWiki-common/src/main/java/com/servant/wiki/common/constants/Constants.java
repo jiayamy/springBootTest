@@ -1,4 +1,4 @@
-package com.servant.wiki.common.config.constants;
+package com.servant.wiki.common.constants;
 
 public class Constants {
 

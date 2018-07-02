@@ -1,4 +1,4 @@
-package com.servant.wiki.common.config.swagger;
+package com.servant.wiki.core.config;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;

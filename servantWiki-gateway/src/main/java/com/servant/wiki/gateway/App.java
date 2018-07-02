@@ -1,4 +1,4 @@
-package com.servant.wiki.core;
+package com.servant.wiki.gateway;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -12,22 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.servant.wiki.common.constants.Constants;
-import com.servant.wiki.core.config.DefaultProfileUtil;
-
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableEurekaClient
-@EnableFeignClients(basePackages={"com.servant.wiki"})
 @SpringBootApplication
-@EnableSwagger2
-@ComponentScan(basePackages={"com.servant.wiki"})
-@EnableJpaRepositories("com.servant.wiki.core.dao")
+@EnableZuulProxy
 public class App {
 	
 	static final Logger logger = LoggerFactory.getLogger(App.class);
@@ -54,7 +46,6 @@ public class App {
 	
 	public static void main(String[] args) throws UnknownHostException{
 		SpringApplication app = new SpringApplication(App.class);
-        DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         String protocol = "http";
         if (env.getProperty("server.ssl.key-store") != null) {

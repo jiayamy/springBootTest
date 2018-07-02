@@ -65,4 +65,10 @@ public class HelloController {
 	public void feiginTest(){
 		helloFeiginService.SayHello();
 	}
+	
+	@ApiOperation(value="jpaSepcTest", notes="")
+	@RequestMapping(value = "/jpaSepcTest", method = RequestMethod.GET)
+	public void jpaSepcTest(){
+		
+	}
 }

@@ -48,7 +48,6 @@ public class HelloService {
 	
 	@SuppressWarnings("unchecked")
 	public void sayHello(){
-		
 		logger.info("----------hello service----"+Global.getConfig("env")+"-----");
 		List<Demo> demos = helloDao.findListByContent("test");
 		for(Demo demo : demos){
@@ -81,4 +80,10 @@ public class HelloService {
 		logger.info("-----------" + str);
 	}
 	
+	public void jpaSepcTest(){
+		Demo demo = new Demo();
+		demo.setId(1);
+	}
+	
 }
+

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.servant.wiki.common.config.constants.Constants;
+import com.servant.wiki.common.constants.Constants;
 
 /**
  * Aspect for logging execution of service and repository Spring components.

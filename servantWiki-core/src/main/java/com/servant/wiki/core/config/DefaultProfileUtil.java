@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.Environment;
 
-import com.servant.wiki.common.config.constants.Constants;
+import com.servant.wiki.common.constants.Constants;
 
 /**
  * Utility class to load a Spring profile to be used as default

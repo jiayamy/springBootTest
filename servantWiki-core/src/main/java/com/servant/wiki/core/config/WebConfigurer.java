@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.servant.wiki.common.config.constants.Constants;
+import com.servant.wiki.common.constants.Constants;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.

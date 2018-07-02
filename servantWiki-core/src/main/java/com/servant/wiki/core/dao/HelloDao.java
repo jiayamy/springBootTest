@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ import com.servant.wiki.core.entity.Demo;
  */
 @Transactional(rollbackOn=Exception.class)
 @Repository
-public interface HelloDao extends JpaRepository<Demo, Integer>{
+public interface HelloDao extends JpaRepository<Demo, Integer>, JpaSpecificationExecutor<Demo>{
 	
 	
 	/**
