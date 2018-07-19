@@ -1,4 +1,4 @@
-package com.servant.wiki.redis.config;
+package com.servant.wiki.worker.config;
 
 import java.util.HashMap;
 import java.util.Map;

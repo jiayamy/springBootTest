@@ -1,4 +1,4 @@
-package servantWiki.redis;
+package com.servant.wiki.worker;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

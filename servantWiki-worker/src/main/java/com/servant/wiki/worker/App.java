@@ -1,4 +1,4 @@
-package com.servant.wiki.redis;
+package com.servant.wiki.worker;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -18,7 +18,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.servant.wiki.common.constants.Constants;
-import com.servant.wiki.redis.config.DefaultProfileUtil;
+import com.servant.wiki.worker.config.DefaultProfileUtil;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
