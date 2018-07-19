@@ -31,59 +31,93 @@ import com.servant.wiki.core.entity.HqDemo;
 public class HelloService {
 
 	Logger logger = LoggerFactory.getLogger(HelloService.class);
-	
+
 	@Autowired
 	private HelloDao helloDao;
-	
+
 	@Autowired
 	private HqDao hqDao;
-	
+
 	@PersistenceContext
 	EntityManager em;
-	
+
 	@Autowired
 	SpringConfig springConfig;
-	
+
 	JedisTemplate jedis = JedisUtils.getJedisTemplate();
-	
+
 	@SuppressWarnings("unchecked")
-	public void sayHello(){
-		logger.info("----------hello service----"+Global.getConfig("env")+"-----");
+	public void sayHello() {
+		logger.info("----------hello service----" + Global.getConfig("env") + "-----");
 		List<Demo> demos = helloDao.findListByContent("test");
-		for(Demo demo : demos){
-			logger.info("=======demo content: {}",demo.getContent());
+		for (Demo demo : demos) {
+			logger.info("=======demo content: {}", demo.getContent());
 		}
-//		List<HqDemo> hqDemos = hqDao.getDate();
-		
+		// List<HqDemo> hqDemos = hqDao.getDate();
+
 		Query q = em.createNamedQuery("HqDemo.getDataById");
 		q.setParameter(1, 2);
 		List<HqDemo> hqDemos = q.getResultList();
-		for(HqDemo demo : hqDemos){
-			logger.info("=======Hqdemo content: {}",JsonUtils.toJson(demo));
+		for (HqDemo demo : hqDemos) {
+			logger.info("=======Hqdemo content: {}", JsonUtils.toJson(demo));
 		}
 	}
-	
-	
+
 	@Async
-	public void method(){
-		logger.info("========method begin==========");
+	public void method() {
+		logger.info("========method " + Thread.currentThread().getName() + " begin==========");
 		try {
-			Thread.sleep(1000);
+			String str = this.redisGetTest(Thread.currentThread().getName());
+			logger.info("=========" + Thread.currentThread().getName() + "====" + str + "======");
 		} catch (Exception e) {
 		}
-		logger.info("========method end==========");
+		logger.info("========method " + Thread.currentThread().getName() + " end==========");
 	}
-	
-	public void redisTest(){
+
+	public void redisTest() {
 		jedis.set("first", "test");
 		String str = jedis.get("first");
 		logger.info("-----------" + str);
 	}
-	
-	public void jpaSepcTest(){
+
+	public void jpaSepcTest() {
 		Demo demo = new Demo();
 		demo.setId(1);
 	}
-	
-}
 
+	/**
+	 * redis查询策略
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public String redisGetTest(String name) {
+		String str = jedis.get("first");
+		if (str == null || str.equals("NULL") || str.equals("&&")) {
+			boolean flag = jedis.setnx("first", "&&");
+			if (flag) {
+				logger.info("======" + name + " query======");
+				Demo demo = helloDao.findOne(1);
+				if (demo != null) {
+					jedis.set("first", demo.getContent());
+					return demo.getContent();
+				} else {
+					jedis.set("first", "NULL");
+					return "NULL";
+				}
+			} else {
+				if ("NULL".equals(str)) {
+					return str;
+				}
+				try {
+					Thread.sleep(100);
+					return this.redisGetTest(name);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return str;
+	}
+
+}

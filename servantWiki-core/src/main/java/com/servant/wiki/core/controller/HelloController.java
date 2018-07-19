@@ -60,6 +60,12 @@ public class HelloController {
 		helloService.redisTest();
 	}
 	
+	@ApiOperation(value="redisGetTest", notes="")
+	@RequestMapping(value = "/redisGetTest", method = RequestMethod.GET)
+	public void redisGetTest(){
+		helloService.redisGetTest(null);
+	}
+	
 	@ApiOperation(value="feiginTest", notes="")
 	@RequestMapping(value = "/feiginTest", method = RequestMethod.GET)
 	public void feiginTest(){
@@ -70,5 +76,18 @@ public class HelloController {
 	@RequestMapping(value = "/jpaSepcTest", method = RequestMethod.GET)
 	public void jpaSepcTest(){
 		
+	}
+	
+	@ApiOperation(value="exceptionTest", notes="")
+	@RequestMapping(value = "/exceptionTest", method = RequestMethod.GET)
+	public void exceptionTest(){
+		try {
+			int a = 10/0;
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			throw new RuntimeException(e);
+		}
+		
+		throw new RuntimeException("test");
 	}
 }
