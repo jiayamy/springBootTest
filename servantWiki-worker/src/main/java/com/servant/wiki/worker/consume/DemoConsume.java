@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
@@ -16,12 +19,18 @@ import com.alibaba.otter.canal.protocol.CanalEntry.EventType;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowChange;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowData;
 import com.alibaba.otter.canal.protocol.Message;
+import com.servant.wiki.worker.manager.RedisManager;
+import com.servant.wiki.worker.task.redis.WriteTask;
 
-public class Demo {
+@Component
+public class DemoConsume {
 
-	static Logger logger = LoggerFactory.getLogger(Demo.class);
+	static Logger logger = LoggerFactory.getLogger(DemoConsume.class);
+	
+	@Autowired
+	private RedisManager redisManager;
 
-	public static void main(String[] args) {
+	public void run() {
 		logger.info("=============");
 		CanalConnector connector = CanalConnectors
 				.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(), 11111), "example", "", "");
@@ -52,7 +61,7 @@ public class Demo {
 		}
 	}
 
-	private static void printEntry(List<Entry> entrys) {
+	private void printEntry(List<Entry> entrys) {
 		for (Entry entry : entrys) {
 			if (entry.getEntryType() == EntryType.TRANSACTIONBEGIN
 					|| entry.getEntryType() == EntryType.TRANSACTIONEND) {
@@ -72,6 +81,13 @@ public class Demo {
 					entry.getHeader().getLogfileName(), entry.getHeader().getLogfileOffset(),
 					entry.getHeader().getSchemaName(), entry.getHeader().getTableName(), eventType));
 
+			WriteTask task = redisManager.getTaskByType(entry.getHeader().getTableName());
+			if(task == null){
+				logger.error("不支持类型");
+				continue;
+			}
+			
+			redisManager.submit(task);
 			for (RowData rowData : rowChage.getRowDatasList()) {
 				if (eventType == EventType.DELETE) {
 					// redisDelete(rowData.getBeforeColumnsList());

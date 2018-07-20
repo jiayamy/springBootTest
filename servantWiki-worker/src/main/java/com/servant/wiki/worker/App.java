@@ -19,6 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.servant.wiki.common.constants.Constants;
 import com.servant.wiki.worker.config.DefaultProfileUtil;
+import com.servant.wiki.worker.consume.DemoConsume;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -72,7 +73,6 @@ public class App {
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"),
             env.getActiveProfiles());
-		
 	}
 	
 }
