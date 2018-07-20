@@ -19,9 +19,9 @@ public interface Worker extends Runnable, Serializable{
 	 */
 	void setPoolName(String name);
 
-	void setTaskName(String workName);
+	void setWorkName(String workName);
 
-	String getTaskName();
+	String getWorkName();
 
 	void execute();
 
