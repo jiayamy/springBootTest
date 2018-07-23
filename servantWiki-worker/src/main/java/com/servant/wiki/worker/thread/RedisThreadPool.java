@@ -41,8 +41,8 @@ public class RedisThreadPool extends ThreadPoolExecutor {
 		// POOL_SMALL.setWorkerQueue(new LinkedBlockingQueue<Runnable>());
 
 		// 中池子
-		POOL_MIDDLE.setCorePoolSize(10);
-		POOL_MIDDLE.setMaximumPoolSize(10);
+		POOL_MIDDLE.setCorePoolSize(100);
+		POOL_MIDDLE.setMaximumPoolSize(100);
 		POOL_MIDDLE.setKeepAliveTime(20 * 60 * 1000); // 20分钟
 		POOL_MIDDLE.setUnit(TimeUnit.MILLISECONDS);
 		// POOL_MIDDLE.setWorkerQueue(new LinkedBlockingQueue<Runnable>());
@@ -91,6 +91,7 @@ public class RedisThreadPool extends ThreadPoolExecutor {
 
 	@Override
 	public Future<?> submit(Runnable task) {
+		logger.info("======asdasdas====");
 		if (task instanceof Worker) {
 			((Worker) task).setPoolName(poolName);
 			((Worker) task).submit();

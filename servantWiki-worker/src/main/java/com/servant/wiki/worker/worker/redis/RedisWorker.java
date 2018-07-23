@@ -24,7 +24,7 @@ public abstract class RedisWorker implements Worker {
 	protected WorkerCallBack callBack;
 
 	public void run() {
-
+		System.out.println("==========1111111");
 		try {
 			execute();
 			if (callBack != null) {

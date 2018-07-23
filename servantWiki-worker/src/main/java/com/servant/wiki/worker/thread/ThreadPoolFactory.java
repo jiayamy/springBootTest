@@ -47,7 +47,6 @@ public class ThreadPoolFactory {
 	}
 	
 	public RedisThreadPool getThreadPool(String poolName,RedisThreadPool.PoolConfig poolConfig){
-		
 		RedisThreadPool p = pool.get(poolName);
 		if(p==null){
 			synchronized (pool) {
@@ -55,6 +54,7 @@ public class ThreadPoolFactory {
 					poolConfig.setWorkerQueue(new LinkedBlockingQueue<Runnable>());
 					p = new RedisThreadPool(poolName,poolConfig);
 					pool.put(poolName,p);
+					System.out.println("=====123123123123");
 				}
 			}
 			
@@ -77,8 +77,9 @@ public class ThreadPoolFactory {
 		ThreadPoolExecutor e = f.getThreadPool("tdPool", RedisThreadPool.POOL_MIDDLE);
 		Map m = new HashMap();
 		m.put("oooooooooooooooo", "kkkkkkkkkkkkkkkkk");
-		Thread.sleep(10000000);
-		//e.shutdown();
+//		Thread.sleep(10000000);
+		System.out.println("==asda");
+		e.shutdown();
 	}
 	
 }

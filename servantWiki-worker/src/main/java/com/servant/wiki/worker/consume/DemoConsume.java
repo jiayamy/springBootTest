@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Component;
 
@@ -23,15 +25,14 @@ import com.servant.wiki.worker.manager.RedisManager;
 import com.servant.wiki.worker.task.redis.WriteTask;
 
 @Component
-public class DemoConsume {
+public class DemoConsume implements ApplicationRunner {
 
 	static Logger logger = LoggerFactory.getLogger(DemoConsume.class);
-	
+
 	@Autowired
 	private RedisManager redisManager;
 
-	public void run() {
-		logger.info("=============");
+	public void run(ApplicationArguments arg0) throws Exception {
 		CanalConnector connector = CanalConnectors
 				.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(), 11111), "example", "", "");
 
@@ -82,33 +83,13 @@ public class DemoConsume {
 					entry.getHeader().getSchemaName(), entry.getHeader().getTableName(), eventType));
 
 			WriteTask task = redisManager.getTaskByType(entry.getHeader().getTableName());
-			if(task == null){
+			if (task == null) {
 				logger.error("不支持类型");
 				continue;
 			}
-			
+			task.setEvent(eventType);
+			task.setRowChange(rowChage);
 			redisManager.submit(task);
-			for (RowData rowData : rowChage.getRowDatasList()) {
-				if (eventType == EventType.DELETE) {
-					// redisDelete(rowData.getBeforeColumnsList());
-					printColumn(rowData.getBeforeColumnsList());
-				} else if (eventType == EventType.INSERT) {
-					// redisInsert(rowData.getAfterColumnsList());
-					printColumn(rowData.getAfterColumnsList());
-				} else {
-					System.out.println("-------> before");
-					printColumn(rowData.getBeforeColumnsList());
-					System.out.println("-------> after");
-					// redisUpdate(rowData.getAfterColumnsList());
-					printColumn(rowData.getAfterColumnsList());
-				}
-			}
-		}
-	}
-
-	private static void printColumn(List<Column> columns) {
-		for (Column column : columns) {
-			System.out.println(column.getName() + " : " + column.getValue() + "    update=" + column.getUpdated());
 		}
 	}
 

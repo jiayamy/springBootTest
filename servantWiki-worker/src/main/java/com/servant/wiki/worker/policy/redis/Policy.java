@@ -13,6 +13,8 @@ public abstract class Policy {
 	private String eventType;
 	
 	private String redisKey;
+	
+	private Integer timeOut;
 
 	public abstract void initPolicy();
 
@@ -62,6 +64,14 @@ public abstract class Policy {
 
 	public void setRedisKey(String redisKey) {
 		this.redisKey = redisKey;
+	}
+
+	public Integer getTimeOut() {
+		return timeOut;
+	}
+
+	public void setTimeOut(Integer timeOut) {
+		this.timeOut = timeOut;
 	}
 
 }

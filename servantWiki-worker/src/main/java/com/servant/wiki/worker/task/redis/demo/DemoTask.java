@@ -13,9 +13,8 @@ public class DemoTask extends WriteTask{
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Override
 	public void execute() {
-		logger.info("=====demoTask begin====");
 		RedisResult redisResult = new RedisResult();
-		Policy policy = new DemoPolicy();
+		Policy policy = new DemoPolicy(this);
 		excuteTask(policy, this, redisResult);
 	}
 	

@@ -1,7 +1,12 @@
 package com.servant.wiki.worker.manager;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.servant.wiki.worker.task.redis.WriteTask;
@@ -12,6 +17,8 @@ import com.servant.wiki.worker.thread.ThreadPoolFactory;
 @Service
 public class RedisManager {
 
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private ThreadPoolExecutor largeTaskPool = ThreadPoolFactory.getInstance()
 			.getThreadPool("thread_pool_export_large_task",
 					RedisThreadPool.POOL_SMALL);
@@ -21,7 +28,7 @@ public class RedisManager {
 	private ThreadPoolExecutor normalTaskPool = ThreadPoolFactory.getInstance()
 			.getThreadPool("thread_pool_export_normal_task",
 					RedisThreadPool.POOL_LARGE);
-	
+//	@Async
 	public void submit(WriteTask task){
 		if("demo".equals(task.getType())){
 			bigTaskPool.submit(task);
@@ -30,7 +37,9 @@ public class RedisManager {
 	
 	public WriteTask getTaskByType(String type){
 		if("demo".equals(type)){
-			return new DemoTask();
+			DemoTask task = new DemoTask();
+			task.setType("demo");
+			return task;
 		}
 		return null;
 	}
