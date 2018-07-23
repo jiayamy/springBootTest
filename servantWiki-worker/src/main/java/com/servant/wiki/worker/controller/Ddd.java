@@ -16,7 +16,6 @@ public class Ddd {
 	
 	@GetMapping(value = "/demo")
 	public void demo(){
-		demoConsume.run();
 		
 	}
 }

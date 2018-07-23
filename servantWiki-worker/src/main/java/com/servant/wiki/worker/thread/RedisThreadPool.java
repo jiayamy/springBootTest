@@ -91,7 +91,6 @@ public class RedisThreadPool extends ThreadPoolExecutor {
 
 	@Override
 	public Future<?> submit(Runnable task) {
-		logger.info("======asdasdas====");
 		if (task instanceof Worker) {
 			((Worker) task).setPoolName(poolName);
 			((Worker) task).submit();

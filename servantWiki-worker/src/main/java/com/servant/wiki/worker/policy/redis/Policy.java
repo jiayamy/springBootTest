@@ -14,6 +14,8 @@ public abstract class Policy {
 	
 	private String redisKey;
 	
+	private String redisColumn;
+	
 	private Integer timeOut;
 
 	public abstract void initPolicy();
@@ -64,6 +66,14 @@ public abstract class Policy {
 
 	public void setRedisKey(String redisKey) {
 		this.redisKey = redisKey;
+	}
+	
+	public String getRedisColumn() {
+		return redisColumn;
+	}
+
+	public void setRedisColumn(String redisColumn) {
+		this.redisColumn = redisColumn;
 	}
 
 	public Integer getTimeOut() {

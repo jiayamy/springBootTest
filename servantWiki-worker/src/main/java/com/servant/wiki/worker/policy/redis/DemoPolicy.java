@@ -20,6 +20,7 @@ public class DemoPolicy extends Policy{
 		this.setSchemaName("servertWiki");
 		this.setRedisKey("demo:");
 		this.setTimeOut(1000);
+		this.setRedisColumn("id");
 	}
 
 	public Demo getDemo() {

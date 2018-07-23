@@ -11,6 +11,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry.Column;
 import com.alibaba.otter.canal.protocol.CanalEntry.EventType;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowChange;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowData;
+import com.servant.wiki.common.util.JsonUtils;
 import com.servant.wiki.worker.config.redis.JedisTemplate;
 import com.servant.wiki.worker.config.redis.JedisUtils;
 import com.servant.wiki.worker.policy.redis.Policy;
@@ -58,31 +59,44 @@ public abstract class WriteTask extends RedisWorker {
 
 	private static void redisDelete(List<Column> columns, Policy policy) {
 		JSONObject json = new JSONObject();
+		String value = null;
 		for (Column column : columns) {
 			json.put(column.getName(), column.getValue());
+			if(column.getName().equals(policy.getRedisColumn())){
+				value = column.getValue();
+			}
 		}
-		if (columns.size() > 0) {
-			jedis.del(policy.getRedisKey() + columns.get(0).getValue());
+		if (columns.size() > 0 && value != null) {
+			jedis.del(policy.getRedisKey() + value);
 		}
 	}
 
 	private static void redisInsert(List<Column> columns, Policy policy) {
 		JSONObject json = new JSONObject();
+		String value = null;
 		for (Column column : columns) {
 			json.put(column.getName(), column.getValue());
+			if(column.getName().equals(policy.getRedisColumn())){
+				value = column.getValue();
+			}
 		}
-		if (columns.size() > 0) {
-			jedis.set(policy.getRedisKey() + columns.get(0).getValue(), json.toJSONString(), policy.getTimeOut());
+		if (columns.size() > 0 && value != null) {
+			jedis.set(policy.getRedisKey() + value, json.toJSONString(), policy.getTimeOut());
 		}
 	}
 
 	private static void redisUpdate(List<Column> columns, Policy policy) {
+		System.out.println(JsonUtils.toJson(policy));
 		JSONObject json = new JSONObject();
+		String value = null;
 		for (Column column : columns) {
 			json.put(column.getName(), column.getValue());
+			if(column.getName().equals(policy.getRedisColumn())){
+				value = column.getValue();
+			}
 		}
-		if (columns.size() > 0) {
-			jedis.set(policy.getRedisKey() + columns.get(0).getValue(), json.toJSONString(), policy.getTimeOut());
+		if (columns.size() > 0 && value != null) {
+			jedis.set(policy.getRedisKey() + value, json.toJSONString(), policy.getTimeOut());
 		}
 	}
 

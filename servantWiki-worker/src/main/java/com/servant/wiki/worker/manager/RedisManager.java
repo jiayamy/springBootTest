@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.servant.wiki.worker.task.redis.WriteTask;
 import com.servant.wiki.worker.task.redis.demo.DemoTask;
+import com.servant.wiki.worker.task.redis.demo.ResourceTask;
 import com.servant.wiki.worker.thread.RedisThreadPool;
 import com.servant.wiki.worker.thread.ThreadPoolFactory;
 
@@ -30,16 +31,18 @@ public class RedisManager {
 					RedisThreadPool.POOL_LARGE);
 //	@Async
 	public void submit(WriteTask task){
-		if("demo".equals(task.getType())){
+		if("demo".equals(task.getType()) 
+				|| "w_resource".equals(task.getType())){
 			bigTaskPool.submit(task);
 		}
 	}
 	
 	public WriteTask getTaskByType(String type){
 		if("demo".equals(type)){
-			DemoTask task = new DemoTask();
-			task.setType("demo");
-			return task;
+			return new DemoTask();
+		}
+		if("w_resource".equals(type)){
+			return new ResourceTask();
 		}
 		return null;
 	}
