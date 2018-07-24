@@ -10,11 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.servant.wiki.gateway.service.ConfigService;
+import com.servant.wiki.gateway.service.SecrityService;
 
 import net.sf.json.JSONObject;
 
@@ -27,6 +30,12 @@ public class AccessZuulFilter extends ZuulFilter {
      * 封装，不需要过滤的list列表
      */
     protected static List<Pattern> patterns = new ArrayList<Pattern>();
+    
+    @Autowired
+    private ConfigService configService;
+    
+    @Autowired
+    private SecrityService secrityService;
 
     static {
         //patterns.add(Pattern.compile("/"));
