@@ -18,7 +18,6 @@ import com.servant.wiki.core.config.SpringConfig;
 import com.servant.wiki.core.config.redis.JedisTemplate;
 import com.servant.wiki.core.config.redis.JedisUtils;
 import com.servant.wiki.core.dao.HelloDao;
-import com.servant.wiki.core.dao.HqDao;
 import com.servant.wiki.core.entity.Demo;
 import com.servant.wiki.core.entity.HqDemo;
 
@@ -35,14 +34,12 @@ public class HelloService {
 	@Autowired
 	private HelloDao helloDao;
 
-	@Autowired
-	private HqDao hqDao;
-
 	@PersistenceContext
 	EntityManager em;
 
 	@Autowired
 	SpringConfig springConfig;
+	
 
 	JedisTemplate jedis = JedisUtils.getJedisTemplate();
 
@@ -120,4 +117,10 @@ public class HelloService {
 		return str;
 	}
 
+	
+	public void mongoTest(){
+		Demo demo = new Demo();
+		demo.setContent("test111");
+		demo.setId(33);
+	}
 }

@@ -90,4 +90,15 @@ public class HelloController {
 		
 		throw new RuntimeException("test");
 	}
+	
+	@ApiOperation(value="mongoTest", notes="")
+	@RequestMapping(value = "/mongoTest", method = RequestMethod.GET)
+	public void mongoTest(){
+		try {
+			helloService.mongoTest();
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
 }

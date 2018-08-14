@@ -28,6 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ComponentScan(basePackages={"com.servant.wiki"})
 @EnableJpaRepositories("com.servant.wiki.core.dao")
+//@EnableMongoRepositories("com.servant.wiki.core.mongo")
 public class App {
 	
 	static final Logger logger = LoggerFactory.getLogger(App.class);
