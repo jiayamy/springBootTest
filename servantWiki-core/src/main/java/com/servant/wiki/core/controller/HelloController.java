@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.servant.wiki.api.HelloFeiginService;
+import com.servant.wiki.common.util.JsonUtils;
+import com.servant.wiki.core.baidu.aip.ValidateService;
+import com.servant.wiki.core.entity.validate.ValidateResponse;
 import com.servant.wiki.core.service.HelloService;
 
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSON;
 
 /**
  * 
@@ -28,6 +32,9 @@ public class HelloController {
 	
 	@Autowired
 	private HelloFeiginService helloFeiginService;
+	
+	@Autowired
+	private ValidateService validateService;
 	
 	@ApiOperation(value="hello", notes="")
 	@RequestMapping(value = "/sayHello", method = RequestMethod.GET)
@@ -96,6 +103,30 @@ public class HelloController {
 	public void mongoTest(){
 		try {
 			helloService.mongoTest();
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@ApiOperation(value="validateTest", notes="")
+	@RequestMapping(value = "/validateTest", method = RequestMethod.GET)
+	public void validateTest(){
+		try {
+			String content = "傻逼";
+			ValidateResponse validateResponse = validateService.checkContent(content);
+			logger.info("=========={}",JsonUtils.toJson(validateResponse));
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@ApiOperation(value="stackTest", notes="")
+	@RequestMapping(value = "/stackTest", method = RequestMethod.GET)
+	public void stackTest(){
+		try {
+			helloService.stackTest();
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			throw new RuntimeException(e);

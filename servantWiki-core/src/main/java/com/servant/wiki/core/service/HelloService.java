@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.servant.wiki.common.config.Global;
+import com.servant.wiki.common.model.stack.FixCapacityStack;
+import com.servant.wiki.common.model.stack.LinkedStack;
 import com.servant.wiki.common.util.JsonUtils;
 import com.servant.wiki.core.config.SpringConfig;
 import com.servant.wiki.core.config.redis.JedisTemplate;
@@ -122,5 +124,18 @@ public class HelloService {
 		Demo demo = new Demo();
 		demo.setContent("test111");
 		demo.setId(33);
+	}
+	
+	public void stackTest(){
+		LinkedStack linkedStack = new LinkedStack();
+		FixCapacityStack fixCapacityStack = new FixCapacityStack(20);
+		for(int i = 0; i < 20; i++){
+			linkedStack.push(i);
+			fixCapacityStack.push(i);
+		}
+		for(int i = 0; i < 10; i++){
+			System.out.println(linkedStack.pop());
+			System.out.println(fixCapacityStack.pop());
+		}
 	}
 }
