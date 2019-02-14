@@ -1,6 +1,8 @@
 package com.servant.wiki.core.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.servant.wiki.common.config.Global;
 import com.servant.wiki.common.model.stack.FixCapacityStack;
@@ -22,6 +25,7 @@ import com.servant.wiki.core.config.redis.JedisUtils;
 import com.servant.wiki.core.dao.HelloDao;
 import com.servant.wiki.core.entity.Demo;
 import com.servant.wiki.core.entity.HqDemo;
+import com.servant.wiki.core.repository.HelloRepository;
 
 /**
  * 
@@ -34,6 +38,9 @@ public class HelloService {
 	Logger logger = LoggerFactory.getLogger(HelloService.class);
 
 	@Autowired
+	private HelloRepository helloRepository;
+	
+	@Autowired
 	private HelloDao helloDao;
 
 	@PersistenceContext
@@ -41,14 +48,14 @@ public class HelloService {
 
 	@Autowired
 	SpringConfig springConfig;
-	
 
 	JedisTemplate jedis = JedisUtils.getJedisTemplate();
 
 	@SuppressWarnings("unchecked")
+	@Transactional(value = "transactionManager")
 	public void sayHello() {
 		logger.info("----------hello service----" + Global.getConfig("env") + "-----");
-		List<Demo> demos = helloDao.findListByContent("test");
+		List<Demo> demos = helloRepository.findListByContent("test");
 		for (Demo demo : demos) {
 			logger.info("=======demo content: {}", demo.getContent());
 		}
@@ -59,6 +66,21 @@ public class HelloService {
 		List<HqDemo> hqDemos = q.getResultList();
 		for (HqDemo demo : hqDemos) {
 			logger.info("=======Hqdemo content: {}", JsonUtils.toJson(demo));
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(value = "mybatisTxManager")
+	public void mybatisTest() {
+		Demo demo = new Demo();
+		demo.setContent("insertTest");
+		helloDao.insert(demo);
+		Map param = new HashMap<>();
+		param.put("content", "insertTest");
+		List<Demo> demos = helloDao.selectParam(param);
+		for (Demo d : demos) {
+			logger.info("=======demo content: {}", d.getContent());
+			helloDao.deleteEnrollById(d.getId());
 		}
 	}
 
@@ -96,7 +118,7 @@ public class HelloService {
 			boolean flag = jedis.setnx("first", "&&");
 			if (flag) {
 				logger.info("======" + name + " query======");
-				Demo demo = helloDao.findOne(1);
+				Demo demo = helloRepository.findOne(1);
 				if (demo != null) {
 					jedis.set("first", demo.getContent());
 					return demo.getContent();
@@ -119,21 +141,20 @@ public class HelloService {
 		return str;
 	}
 
-	
-	public void mongoTest(){
+	public void mongoTest() {
 		Demo demo = new Demo();
 		demo.setContent("test111");
 		demo.setId(33);
 	}
-	
-	public void stackTest(){
+
+	public void stackTest() {
 		LinkedStack linkedStack = new LinkedStack();
 		FixCapacityStack fixCapacityStack = new FixCapacityStack(20);
-		for(int i = 0; i < 20; i++){
+		for (int i = 0; i < 20; i++) {
 			linkedStack.push(i);
 			fixCapacityStack.push(i);
 		}
-		for(int i = 0; i < 10; i++){
+		for (int i = 0; i < 10; i++) {
 			System.out.println(linkedStack.pop());
 			System.out.println(fixCapacityStack.pop());
 		}

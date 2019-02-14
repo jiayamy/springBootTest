@@ -1,4 +1,4 @@
-package com.servant.wiki.core.dao;
+package com.servant.wiki.core.repository;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import com.servant.wiki.core.entity.HqDemo;
  */
 @Transactional(rollbackOn=Exception.class)
 @Repository
-public interface HqDao extends JpaRepository<HqDemo, Integer>{
+public interface HqRepository extends JpaRepository<HqDemo, Integer>{
 
 //	@Query(value = "getData")
 //	List<HqDemo> getData();

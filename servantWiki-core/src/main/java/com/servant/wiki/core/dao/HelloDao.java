@@ -1,31 +1,17 @@
 package com.servant.wiki.core.dao;
 
 import java.util.List;
+import java.util.Map;
 
-import javax.transaction.Transactional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
 import com.servant.wiki.core.entity.Demo;
 
-/**
- * 
- * @author lijia
- *
- */
-@Transactional(rollbackOn=Exception.class)
-@Repository
-public interface HelloDao extends JpaRepository<Demo, Integer>, JpaSpecificationExecutor<Demo>{
-	
-	
-	/**
-	 * 模糊查询content
-	 * @param content
-	 * @return
-	 */
-	@Query(" from Demo where content like %?1%")
-	List<Demo> findListByContent(String content);
+public interface HelloDao {
+
+	public Integer insert(Demo demo);
+
+	public Integer deleteEnrollById(@Param(value = "id") Integer id);
+
+	public List<Demo> selectParam(Map param);
 }

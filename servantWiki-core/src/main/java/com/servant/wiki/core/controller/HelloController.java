@@ -132,4 +132,15 @@ public class HelloController {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	@ApiOperation(value="mybatisTest", notes="")
+	@RequestMapping(value = "/mybatisTest", method = RequestMethod.GET)
+	public void mybatisTest(){
+		try {
+			helloService.mybatisTest();
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			throw new RuntimeException(e);
+		}
+	}
 }

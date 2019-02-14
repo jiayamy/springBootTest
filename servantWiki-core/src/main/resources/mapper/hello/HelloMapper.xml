@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.servant.wiki.core.dao.HelloDao">
+	<resultMap id="BaseResultMap" type="com.servant.wiki.core.entity.Demo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, content
+	</sql>
+	<sql id="Where_Condition">
+		<where>
+			<if test="id != null">and id = #{id,jdbcType=INTEGER}</if>
+			<if test="content != null">and content = #{content,jdbcType=VARCHAR}</if>
+			<if test="stuIdList !=null and stuIdList.size > 0">
+				and r.STU_ID in
+				<foreach collection="stuIdList" item="item" index="index"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</sql>
+	<sql id="Sort_Condition">
+		<if test="sort!=null">
+			order by
+			<foreach collection="sort" index="index" item="item"
+				separator=",">
+				${item.field} ${item.dir}
+			</foreach>
+		</if>
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="id" parameterType="com.servant.wiki.core.entity.Demo">
+		insert into demo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<delete id="deleteEnrollById" parameterType="integer">
+		delete from
+		demo
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+	<select id="selectParam" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT <include refid="Base_Column_List" /> FROM
+		demo 
+		<include refid="Where_Condition" />
+		<include refid="Sort_Condition" />
+	</select>
+
+</mapper>

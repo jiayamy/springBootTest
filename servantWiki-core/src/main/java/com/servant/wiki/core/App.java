@@ -27,7 +27,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan(basePackages={"com.servant.wiki"})
-@EnableJpaRepositories("com.servant.wiki.core.dao")
+@EnableJpaRepositories("com.servant.wiki.core.repository")
 //@EnableMongoRepositories("com.servant.wiki.core.mongo")
 public class App {
 	

@@ -39,6 +39,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                     + ",信息：" + exception.getLocalizedMessage());
             return new ResponseEntity<>(new ErrorResponseEntity(status.value(), "参数转换失败"), status);
         }
+        logger.error("exception：", ex);
         return new ResponseEntity<>(new ErrorResponseEntity(status.value(), "参数转换失败"), status);
     } 
 }
