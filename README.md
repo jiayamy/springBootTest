@@ -11,7 +11,7 @@ spring-boot spring-cloud 通用架构测试搭建
 
 ..-worker:
 大型工厂模式存放区
-
+缓存存储策略
 
 涉及架构模块：
 redis, mongodb, mysql （docker, jenkens）
